@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260710-05-9ed98a3"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop Certificate</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&amp;family=Cormorant+Garamond:wght@300;400;500;600;700&amp;family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <style>
+        :root {
+            --gold: #b8860b;
+            --gold-light: #d4a843;
+            --gold-pale: #e8d48b;
+            --royal-blue: #1a2a5e;
+            --ivory: #fdf8ef;
+            --paper: #f9f3e3;
+        }
+        body { font-family: 'Playfair Display', serif; margin: 0; }
+
+        /* Overlay & Animation */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 50; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: background 1.5s ease; }
+        .overlay.active { background: rgba(5,5,15,0.92); }
+        .gold-glow { width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(184,134,11,0.3) 0%, transparent 70%); position: absolute; opacity: 0; transition: opacity 2s ease; }
+        .gold-glow.active { opacity: 1; }
+        .envelope-wrapper { position: relative; opacity: 0; transform: scale(0.85); transition: all 1.2s cubic-bezier(0.23,1,0.32,1); }
+        .envelope-wrapper.active { opacity: 1; transform: scale(1); }
+        .envelope { width: 340px; height: 210px; position: relative; }
+        .envelope-body { width: 100%; height: 100%; background: linear-gradient(145deg, #1a2a5e 0%, #0c1533 100%); border-radius: 4px; border: 1.5px solid var(--gold); position: relative; overflow: hidden; }
+        .envelope-body::after { content: ''; position: absolute; inset: 6px; border: 0.5px solid rgba(184,134,11,0.3); border-radius: 2px; }
+        .envelope-flap { width: 0; height: 0; border-left: 170px solid transparent; border-right: 170px solid transparent; border-top: 125px solid #0c1533; position: absolute; top: 0; left: 0; transform-origin: top center; transition: transform 1.2s cubic-bezier(0.23,1,0.32,1); z-index: 2; }
+        .envelope-flap::after { content: ''; position: absolute; top: -125px; left: -170px; border-left: 170px solid transparent; border-right: 170px solid transparent; border-top: 125px solid rgba(184,134,11,0.2); }
+        .envelope-flap.open { transform: rotateX(180deg); }
+        .envelope-seal { width: 48px; height: 48px; background: radial-gradient(circle, var(--gold-light), var(--gold)); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; box-shadow: 0 0 20px rgba(184,134,11,0.4); transition: opacity 0.6s; font-family: 'Libre Baskerville', serif; }
+        .envelope-seal.hidden { opacity: 0; }
+        .cert-slide { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(0); width: 290px; height: 180px; background: var(--ivory); border: 1px solid var(--gold); border-radius: 2px; transition: transform 1.4s cubic-bezier(0.23,1,0.32,1); z-index: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .cert-slide.up { transform: translateX(-50%) translateY(-270px); }
+        .reveal-content { opacity: 0; transform: translateY(30px) scale(0.97); transition: all 1.2s cubic-bezier(0.23,1,0.32,1) 0.3s; pointer-events: none; }
+        .reveal-content.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+
+        /* Certificate */
+        .diploma-outer { position: relative; background: var(--ivory); padding: 6px; box-shadow: 0 25px 80px rgba(0,0,0,0.35); }
+        .diploma-border-1 { border: 2px solid var(--gold); padding: 4px; }
+        .diploma-border-2 { border: 1px solid rgba(184,134,11,0.5); padding: 4px; }
+        .diploma-border-3 { border: 1px solid rgba(184,134,11,0.25); padding: 24px 32px; position: relative; overflow: hidden; }
+        /* Paper grain */
+        .diploma-border-3::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; }
+        /* Watermark */
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Playfair Display', serif; font-size: 120px; font-weight: 900; color: rgba(184,134,11,0.04); letter-spacing: 0.05em; white-space: nowrap; pointer-events: none; user-select: none; }
+        /* Corner ornaments */
+        .corner-ornament { position: absolute; width: 40px; height: 40px; opacity: 0.5; }
+        .corner-ornament svg { width: 100%; height: 100%; }
+        .corner-tl { top: 8px; left: 8px; }
+        .corner-tr { top: 8px; right: 8px; transform: scaleX(-1); }
+        .corner-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+        .corner-br { bottom: 8px; right: 8px; transform: scale(-1,-1); }
+
+        /* Seal */
+        .cert-seal { width: 95px; height: 95px; background: radial-gradient(circle at 35% 35%, #f0d860, #b8860b 60%, #8b6508); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(184,134,11,0.4), inset 0 -3px 6px rgba(0,0,0,0.25), inset 0 3px 6px rgba(255,255,255,0.3); position: relative; }
+        .cert-seal::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); }
+        .cert-seal::after { content: ''; position: absolute; inset: 10px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.25); }
+        .seal-text { color: #fff; font-family: 'Libre Baskerville', serif; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; text-align: center; line-height: 1.3; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+
+        .name-input { border: none; border-bottom: 2px solid var(--gold); background: transparent; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--royal-blue); outline: none; width: 85%; padding: 6px 0; letter-spacing: 0.02em; }
+        .name-input::placeholder { color: #bbb; font-style: italic; font-weight: 300; }
+        .name-input:focus { border-bottom-color: var(--royal-blue); }
+
+        .divider-flourish { display: flex; align-items: center; gap: 12px; }
+        .divider-flourish .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .divider-flourish .diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+
+        /* Confetti */
+        .confetti-piece { position: fixed; z-index: 100; pointer-events: none; animation: confetti-fall 3.5s cubic-bezier(0.23,1,0.32,1) forwards; }
+        @keyframes confetti-fall { 0% { opacity: 1; transform: translateY(0) rotateZ(0deg); } 100% { opacity: 0; transform: translateY(100vh) rotateZ(540deg); } }
+        .sparkle { position: fixed; width: 3px; height: 3px; background: var(--gold-pale); border-radius: 50%; z-index: 99; pointer-events: none; animation: sparkle-fade 2s ease-out forwards; }
+        @keyframes sparkle-fade { 0% { opacity: 1; transform: scale(1) translateY(0); } 100% { opacity: 0; transform: scale(0) translateY(-40px); } }
+
+        .celebration-msg { opacity: 0; transition: opacity 0.8s ease; }
+        .celebration-msg.active { opacity: 1; }
+
+        @media print {
+            .no-print { display: none !important; }
+            .overlay { display: none !important; }
+            body { background: white !important; }
+            .diploma-outer { box-shadow: none; }
+        }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Overlay -->
+  <div id="overlay" class="overlay">
+   <div id="gold-glow" class="gold-glow"></div>
+   <div id="envelope-wrapper" class="envelope-wrapper">
+    <div class="envelope">
+     <div id="envelope-flap" class="envelope-flap"></div>
+     <div id="envelope-seal" class="envelope-seal">
+      W
+     </div>
+     <div class="envelope-body"></div>
+     <div id="cert-slide" class="cert-slide"></div>
+    </div>
+   </div>
+  </div><!-- Main -->
+  <main id="main-content" class="reveal-content w-full flex flex-col items-center px-4 py-8">
+   <header class="text-center mb-6">
+    <h1 data-template-id="congrats-heading" class="canva-text text-3xl md:text-4xl font-bold mb-3"></h1>
+    <p data-template-id="congrats-subtitle" class="canva-text text-base md:text-lg"></p>
+   </header><!-- Diploma -->
+   <div class="diploma-outer w-full max-w-3xl" id="certificate">
+    <div class="diploma-border-1">
+     <div class="diploma-border-2">
+      <div class="diploma-border-3">
+       <div class="watermark">
+        WC
+       </div><!-- Corner ornaments -->
+       <div class="corner-ornament corner-tl">
+        <svg viewbox="0 0 40 40"><path d="M2 38 Q2 2 38 2" fill="none" stroke="#b8860b" stroke-width="1" /><path d="M6 34 Q6 6 34 6" fill="none" stroke="#b8860b" stroke-width="0.5" opacity="0.5" />
+        </svg>
+       </div>
+       <div class="corner-ornament corner-tr">
+        <svg viewbox="0 0 40 40"><path d="M2 38 Q2 2 38 2" fill="none" stroke="#b8860b" stroke-width="1" /><path d="M6 34 Q6 6 34 6" fill="none" stroke="#b8860b" stroke-width="0.5" opacity="0.5" />
+        </svg>
+       </div>
+       <div class="corner-ornament corner-bl">
+        <svg viewbox="0 0 40 40"><path d="M2 38 Q2 2 38 2" fill="none" stroke="#b8860b" stroke-width="1" /><path d="M6 34 Q6 6 34 6" fill="none" stroke="#b8860b" stroke-width="0.5" opacity="0.5" />
+        </svg>
+       </div>
+       <div class="corner-ornament corner-br">
+        <svg viewbox="0 0 40 40"><path d="M2 38 Q2 2 38 2" fill="none" stroke="#b8860b" stroke-width="1" /><path d="M6 34 Q6 6 34 6" fill="none" stroke="#b8860b" stroke-width="0.5" opacity="0.5" />
+        </svg>
+       </div>
+       <div class="flex flex-col items-center text-center space-y-4 relative z-10">
+        <!-- Gold emblem top -->
+        <div style="font-size:28px; color: var(--gold); line-height:1;">
+         ✦
+        </div>
+        <h2 data-template-id="cert-title" class="canva-text tracking-[0.2em] uppercase"></h2>
+        <div class="divider-flourish w-48">
+         <span class="line"></span> <span class="diamond"></span> <span class="line"></span>
+        </div>
+        <p data-template-id="cert-certifies" class="canva-text italic"></p>
+        <div class="w-full py-2">
+         <input type="text" id="student-name" class="name-input" placeholder="Enter Your Name" aria-label="Student Name">
+        </div>
+        <p data-template-id="cert-completed" class="canva-text"></p>
+        <h3 data-template-id="cert-workshop" class="canva-text"></h3>
+        <div class="divider-flourish w-32 my-2">
+         <span class="line"></span> <span class="diamond"></span> <span class="line"></span>
+        </div>
+        <p data-template-id="cert-awarded" class="canva-text"></p><input type="text" id="cert-date-input" class="name-input" placeholder="Date" aria-label="Certificate Date" style="width: 35%; font-size: 1rem;"><!-- Bottom section -->
+        <div class="flex items-end justify-between w-full mt-6 pt-6">
+         <div class="text-left flex-1">
+          <p data-template-id="cert-signature" class="canva-text italic" style="font-family:'Cormorant Garamond',serif;"></p>
+          <div class="w-40 h-px bg-[#b8860b] mt-1 mb-1"></div>
+          <p data-template-id="cert-instructor-label" class="canva-text uppercase tracking-[0.2em]"></p>
+         </div>
+         <div class="cert-seal">
+          <span class="seal-text">Workshop<br>
+            Certified</span>
+         </div>
+         <div class="text-right flex-1">
+          <p data-template-id="cert-id-label" class="canva-text uppercase tracking-[0.15em]"></p>
+          <p id="cert-id-number" class="text-xs mt-1" style="color: #888; font-family: 'Cormorant Garamond', serif; letter-spacing: 0.1em;"></p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Celebration -->
+   <div id="celebration-msg" class="celebration-msg mt-6 text-center">
+    <p data-template-id="celebrate-msg" class="canva-text"></p>
+   </div><!-- Buttons -->
+   <nav class="no-print flex flex-wrap justify-center gap-3 mt-8" role="navigation" aria-label="Certificate actions">
+    <button data-template-id="btn-print" class="canva-button px-5 py-2.5 rounded text-sm transition hover:opacity-90" onclick="window.print()"></button> <button data-template-id="btn-pdf" class="canva-button px-5 py-2.5 rounded text-sm transition hover:opacity-90" onclick="window.print()"></button> <button data-template-id="btn-png" class="canva-button px-5 py-2.5 rounded text-sm transition hover:opacity-90" onclick="downloadPNG()"></button> <button data-template-id="btn-celebrate" class="canva-button px-5 py-2.5 rounded text-sm transition hover:opacity-90" onclick="celebrateAgain()"></button>
+   </nav>
+  </main>
+  <script src="/_sdk/719055fef2a85d14.editing_sdk.js" integrity="sha512-kFqrdGgIiTOsu307feB5Cy3JVP9IayftsmCIZ0csxYBGuBmJQPhyvcnmKR8F0fTW97h5s1gAvz3SumI8zJ6OxQ=="></script>
+  <script>
+        // Date
+        const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('cert-date-input').value = today;
+
+        // Certificate ID
+        const certId = 'WC-' + Date.now().toString(36).toUpperCase().slice(-6) + '-' + Math.random().toString(36).slice(2,5).toUpperCase();
+        document.getElementById('cert-id-number').textContent = certId;
+
+        // Animation
+        const overlay = document.getElementById('overlay');
+        const goldGlow = document.getElementById('gold-glow');
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const envelopeFlap = document.getElementById('envelope-flap');
+        const envelopeSeal = document.getElementById('envelope-seal');
+        const certSlide = document.getElementById('cert-slide');
+        const mainContent = document.getElementById('main-content');
+
+        setTimeout(() => overlay.classList.add('active'), 200);
+        setTimeout(() => goldGlow.classList.add('active'), 800);
+        setTimeout(() => envelopeWrapper.classList.add('active'), 1500);
+        setTimeout(() => { envelopeSeal.classList.add('hidden'); envelopeFlap.classList.add('open'); }, 3200);
+        setTimeout(() => certSlide.classList.add('up'), 3800);
+        setTimeout(() => { overlay.style.opacity = '0'; overlay.style.transition = 'opacity 1.2s ease'; }, 5000);
+        setTimeout(() => { overlay.style.display = 'none'; mainContent.classList.add('active'); burstConfetti(); startSparkles(); }, 6200);
+
+        function burstConfetti() {
+            const colors = ['#b8860b', '#d4a843', '#e8d48b', '#f0d860', '#1a2a5e'];
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'confetti-piece';
+                p.style.left = (Math.random() * 100) + '%';
+                p.style.top = '-10px';
+                p.style.width = (4 + Math.random() * 6) + 'px';
+                p.style.height = (8 + Math.random() * 12) + 'px';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+                p.style.animationDelay = (Math.random() * 0.8) + 's';
+                p.style.borderRadius = Math.random() > 0.5 ? '50%' : '1px';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 5500);
+            }
+        }
+
+        function startSparkles() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const s = document.createElement('div');
+                    s.className = 'sparkle';
+                    s.style.left = (15 + Math.random() * 70) + '%';
+                    s.style.top = (20 + Math.random() * 60) + '%';
+                    document.body.appendChild(s);
+                    setTimeout(() => s.remove(), 2500);
+                }, i * 120);
+            }
+        }
+
+        function celebrateAgain() {
+            burstConfetti();
+            startSparkles();
+            const msg = document.getElementById('celebration-msg');
+            msg.classList.add('active');
+            setTimeout(() => msg.classList.remove('active'), 4000);
+        }
+
+        function downloadPNG() {
+            const cert = document.getElementById('certificate');
+            const canvas = document.createElement('canvas');
+            canvas.width = cert.offsetWidth * 2;
+            canvas.height = cert.offsetHeight * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(2, 2);
+            ctx.fillStyle = '#fdf8ef';
+            ctx.fillRect(0, 0, cert.offsetWidth, cert.offsetHeight);
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${cert.offsetWidth}" height="${cert.offsetHeight}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml">${cert.outerHTML}</div></foreignObject></svg>`;
+            const img = new Image();
+            const blob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            img.onload = () => { ctx.drawImage(img, 0, 0); URL.revokeObjectURL(url); const a = document.createElement('a'); a.download = 'diploma.png'; a.href = canvas.toDataURL('image/png'); a.click(); };
+            img.onerror = () => { URL.revokeObjectURL(url); window.print(); };
+            img.src = url;
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a19bf15f0157f163',t:'MTc4MzgxNjI2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
